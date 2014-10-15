@@ -1,0 +1,50 @@
+#!/usr/bin/php5
+<?php
+
+function get_args($default = null, $aliases = null) {
+	global $argv;
+	$res = array();
+	$size = count($argv);
+	if($aliases === null) {
+		$aliases = array();
+	}
+	for($i = 1; $i < $size; $i++) {
+		@list($k, $v) = explode("=", $argv[$i]);
+		if(isset($v)) {
+			$k = preg_replace("/^-*/", "", $k);
+			$k = isset($aliases[$k]) ? $aliases[$k] : $k;
+			$res[$k] = $v;
+		} else {
+			$res[] = $k;
+		}
+	}
+	if($default !== null && is_array($default)) {
+		$res = array_merge($default, $res);
+	}
+	return $res;
+}
+
+$argument = get_args(
+	array("input" => null, "type" => "sha256", "count" => 2, "length" => 6),
+	array(0 => "input", "i" => "input", "t" => "type", "c" => "count", "l" => "length" )
+);
+
+$count = $argument["count"] | 0;
+$type = $argument["type"];
+$argument["input"] = $argument["input"] ? : isset($argument[0]) ? $argument[0] : null;
+$hash = $argument["input"];
+$length = $argument["length"];
+
+if(strlen($hash) < $length) {
+	echo "you must input the string at least 6 character.", PHP_EOL;
+	echo "'{$hash}' which you inputed just only had ", strlen($hash), " character.", PHP_EOL;
+	echo "exit...", PHP_EOL;
+	die();
+}
+
+while($count --> 0) {
+	$hash = hash($type, $hash);
+}
+
+echo PHP_EOL, $hash, PHP_EOL;
+
