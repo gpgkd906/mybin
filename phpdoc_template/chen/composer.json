@@ -1,0 +1,11 @@
+{
+    "name": "phpdocumentor/template-chen",
+    "type": "phpdocumentor-template",
+    "description": "Responsive modern template for phpDocumentor(customize by chen)",
+    "keywords": ["documentation", "template", "phpdoc"],
+    "homepage": "http://www.phpdoc.org",
+    "license": "MIT",
+    "require": {
+        "phpdocumentor/unified-asset-installer": "~1.1"
+    }
+}
